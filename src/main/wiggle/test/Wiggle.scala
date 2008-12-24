@@ -1,9 +1,14 @@
 //
 // $Id$
 
-package com.samskivert.wiggle
+package wiggle.test
 
 import org.lwjgl.opengl.GL11
+
+import wiggle.game.DisplayConfig
+import wiggle.game.GameLoop
+import wiggle.gfx.Element
+import wiggle.sim.Entity
 
 /**
  * Does something extraordinary.
