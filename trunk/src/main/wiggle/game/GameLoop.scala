@@ -1,12 +1,14 @@
 //
 // $Id$
 
-package com.samskivert.wiggle
+package wiggle.game
 
 import org.lwjgl.LWJGLException
 import org.lwjgl.input.Keyboard
 import org.lwjgl.opengl._
 import org.lwjgl.util.Timer
+
+import wiggle.sim.Entity
 
 /**
  * Handles the main game loop.

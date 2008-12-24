@@ -1,7 +1,7 @@
 //
 // $Id$
 
-package com.samskivert.wiggle
+package wiggle.sim
 
 /**
  * Does something extraordinary.
