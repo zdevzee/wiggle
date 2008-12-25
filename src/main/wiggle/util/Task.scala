@@ -1,10 +1,11 @@
 //
 // $Id$
 
-package wiggle.sim
+package wiggle.util
 
 /**
- * Represents an activity performed by an entity. Tasks can be composed 
+ * Represents an activity performed bit by bit every frame. Tasks can be composed in sequence or in
+ * parallel.
  */
 abstract class Task
 {
@@ -21,10 +22,6 @@ abstract class Task
    *  processing.
    */
   def tick (time :Float) :Boolean
-
-  def then (task :Task) = Task.sequence(this, task)
-
-  def and (task :Task) = Task.parallel(this, task)
 }
 
 /**
@@ -81,12 +78,7 @@ object Task
       complete
     }
 
-    override def and (task :Task) = {
-      _tasks = _tasks ++ Array(task)
-      this
-    }
-
-    protected var _tasks = tasks.toArray
+    protected val _tasks = tasks.toArray
   }
 
   /** Performs a set of tasks in order, starting the next task after the previous has completed. */
@@ -95,27 +87,23 @@ object Task
     assert(tasks.length > 0)
 
     override def init (time :Float) = {
-      // nada
+      _remain = _tasks
     }
 
     override def tick (time :Float) = {
       if (_active == null) {
-        _active = _tasks.head
-        _tasks = _tasks.tail
+        _active = _remain.head
+        _remain = _remain.tail
         _active.init(time)
       }
       if (_active.tick(time)) {
         _active = null
       }
-      _active == null && _tasks.length == 0
+      _active == null && _remain.length == 0
     }
 
-    override def then (task :Task) = {
-      _tasks = _tasks ++ List(task)
-      this
-    }
-
-    protected var _tasks = tasks.toList
+    protected val _tasks = tasks.toList
     protected var _active :Task = null
+    protected var _remain :List[Task] = null
   }
 }

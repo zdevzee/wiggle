@@ -9,7 +9,7 @@ import org.lwjgl.opengl._
 import org.lwjgl.util.Timer
 
 import wiggle.gfx.Element
-import wiggle.sim.Entity
+import wiggle.util.Taskable
 
 /**
  * Handles the main game loop.
@@ -46,11 +46,14 @@ class GameLoop (config :DisplayConfig)
   }
 
   def add (entity :Entity) {
-    _entities = entity :: _entities
+    if (entity.isInstanceOf[Element]) {
+      _elements = entity.asInstanceOf[Element] :: _elements
+    }
+    _taskables = entity :: _taskables
   }
 
-  def add (element :Element) {
-    _elements = element :: _elements
+  def remove (entity :Entity) {
+    // TODO
   }
 
   def stop () {
@@ -89,7 +92,7 @@ class GameLoop (config :DisplayConfig)
     if (Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)) stop
 
     // tick our entities
-    for (entity <- _entities) entity.tick(_timer.getTime)
+    for (taskable <- _taskables) taskable.tick(_timer.getTime)
   }
 
   protected def render () {
@@ -104,6 +107,6 @@ class GameLoop (config :DisplayConfig)
 
   protected var _running = false
   protected var _timer = new Timer
-  protected var _entities :List[Entity] = Nil
+  protected var _taskables :List[Taskable] = Nil
   protected var _elements :List[Element] = Nil
 }

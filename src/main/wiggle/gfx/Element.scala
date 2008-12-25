@@ -5,7 +5,7 @@ package wiggle.gfx
 
 import org.lwjgl.opengl.GL11
 
-import wiggle.util.Value
+import wiggle.util.Setter
 
 /**
  * A visual element, something rendered to the screen.
@@ -13,40 +13,51 @@ import wiggle.util.Value
 abstract class Element
 {
   /** This element's x position. */
-  val x = new Value(0)
+  var x :Float = 0
 
   /** This element's y position. */
-  val y = new Value(0)
+  var y :Float = 0
 
   /** This element's horizontal scale. */
-  val xscale = new Value(1)
+  var xscale :Float = 1
 
   /** This element's vertical scale. */
-  val yscale = new Value(1)
+  var yscale :Float = 1
 
   /** This element's orientation, in degrees (blame OpenGL). */
-  val orient = new Value(1)
+  var orient :Float = 1
 
   /** Returns an option on this element's parent. */
   def parent :Option[Group] = _parent
 
+  def xS = new Setter {
+    override protected def get = x
+    override protected def set (value :Float) {
+      x = value
+    }
+  }
+
+  def yS = new Setter {
+    override protected def get = y
+    override protected def set (value :Float) {
+      y = value
+    }
+  }
+
   /** Positions this element at the specified coordinates. */
   def move (nx :Float, ny :Float) {
-    x.set(nx)
-    y.set(ny)
+    x = nx
+    y = ny
   }
 
   /** Sets up our transforms and renders this element. */
   def render (time :Float) {
     GL11.glPushMatrix
-    val cx = x.get
-    val cy = y.get
-    if (cx != 0 || cy != 0) {
-      GL11.glTranslatef(cx, cy, 0f)
+    if (x != 0 || y != 0) {
+      GL11.glTranslatef(x, y, 0f)
     }
-    val corient = orient.get
-    if (corient != 0) {
-      GL11.glRotatef(corient, 0f, 0f, 1f)
+    if (orient != 0) {
+      GL11.glRotatef(orient, 0f, 0f, 1f)
     }
     // TODO: scale
     try {
