@@ -5,37 +5,48 @@ package wiggle.gfx
 
 import org.lwjgl.opengl.GL11
 
+import wiggle.util.Value
+
 /**
  * A visual element, something rendered to the screen.
  */
 abstract class Element
 {
   /** This element's x position. */
-  var x :Float = 0
+  val x = new Value(0)
 
   /** This element's y position. */
-  var y :Float = 0
+  val y = new Value(0)
 
   /** This element's horizontal scale. */
-  var xscale :Float = 1
+  val xscale = new Value(1)
 
   /** This element's vertical scale. */
-  var yscale :Float = 1
+  val yscale = new Value(1)
 
   /** This element's orientation, in degrees (blame OpenGL). */
-  var orient :Float = 0
+  val orient = new Value(1)
 
   /** Returns an option on this element's parent. */
   def parent :Option[Group] = _parent
 
+  /** Positions this element at the specified coordinates. */
+  def move (nx :Float, ny :Float) {
+    x.set(nx)
+    y.set(ny)
+  }
+
   /** Sets up our transforms and renders this element. */
   def render (time :Float) {
     GL11.glPushMatrix
-    if (x != 0 || y != 0) {
-      GL11.glTranslatef(x, y, 0f)
+    val cx = x.get
+    val cy = y.get
+    if (cx != 0 || cy != 0) {
+      GL11.glTranslatef(cx, cy, 0f)
     }
-    if (orient != 0) {
-      GL11.glRotatef(orient, 0f, 0f, 1f)
+    val corient = orient.get
+    if (corient != 0) {
+      GL11.glRotatef(corient, 0f, 0f, 1f)
     }
     // TODO: scale
     try {
@@ -45,6 +56,7 @@ abstract class Element
     }
   }
 
+  /** Called by {@link Group} when we are added to or removed from it. */
   protected[gfx] def setParent (parent :Option[Group]) {
     _parent match {
       case Some(parent) => parent.remove(this)
