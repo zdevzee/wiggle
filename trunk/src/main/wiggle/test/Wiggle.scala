@@ -19,12 +19,8 @@ import wiggle.util.Taskable
  */
 object Wiggle
 {
-  class Square(sx :Int, sy :Int) extends Element {
-    move(sx, sy)
-
+  class Square extends Element {
     override def renderElement (time :Float) {
-      orient = orient + 4.0f % 360 // rotate the square
-
       GL11.glBegin(GL11.GL_QUADS)
       GL11.glColor3f(1, 0, 1)
       GL11.glVertex2i(-50, -50)
@@ -46,7 +42,14 @@ object Wiggle
 //     for (x <- 0.to(800).by(100) ; y <- 0.to(600).by(100)) group.add(new Square(x, y))
 //     loop.add(group)
 
-    val square = new Square(0, config.height/2) with Entity
+    val square = new Square with Entity
+    square.move(0, config.height/2)
+    square.add(new Task {
+      override def tick (time :Float) = {
+        square.orient = square.orient + 4.0f % 360 // rotate the square
+        false // we're never done
+      }
+    })
     square.add(square.xS.easeInOut(config.width/2, 1).delay(1).easeInOut(0, 1))
     loop.add(square)
     loop.run

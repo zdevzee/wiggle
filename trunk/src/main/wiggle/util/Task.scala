@@ -12,7 +12,8 @@ abstract class Task
   /** Initializes a task and prepares it for execution. A task should reset any internal state in
    * this method as it may be reinitialized and reused after being used once. The call to
    * {@link #init} will immediately be followed by a call to {@link #tick}. */
-  def init (time :Float) :Unit
+  def init (time :Float) :Unit {
+  }
 
   /** Ticks the task, causing it to perform its operation.
    *
