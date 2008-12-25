@@ -3,6 +3,8 @@
 
 package wiggle.gfx
 
+import scala.collection.jcl.ArrayList
+
 /**
  * Convenience methods for creating groups of elements.
  */
@@ -20,30 +22,31 @@ object Group
  */
 class Group extends Element
 {
-  /** Returns a list of this element's children. */
-  def children :List[Element] = _children.toList
+  /** Returns a view of this element's children. */
+  def children :Seq[Element] = _children
 
   /** Adds the specified element as a child of this element. */
   def add (elem :Element) {
     elem.setParent(Some(this))
-    _children = _children ++ Array(elem)
+    _children.add(elem)
   }
 
   /** Removes the specified child element. */
   def remove (elem :Element) = {
-    val eidx = _children.indexOf(elem)
-    if (eidx == -1) false
+    if (!_children.remove(elem)) false
     else {
-      _children = _children.subArray(0, eidx) ++ _children.drop(eidx+1)
       elem.setParent(None)
       true
     }
   }
 
-  override protected def renderElement (time :Float)
-  {
-    for (child <- _children) child.render(time)
+  override protected def renderElement (time :Float) {
+    // this is the only way to iterate without creating garbage, sigh
+    var idx = 0; val len = _children.length; while (idx < len) {
+      _children(idx).render(time)
+      idx = idx+1
+    }
   }
 
-  protected var _children :Array[Element] = Array()
+  protected var _children :ArrayList[Element] = new ArrayList()
 }
