@@ -38,7 +38,7 @@
   <target name="compile" depends="init" description="Compiles the code.">
     <delete dir="${classes.dir}"/>
     <mkdir dir="${classes.dir}"/>
-    <scalac srcdir="${src.dir}" destdir="${classes.dir}" scalacdebugging="true">
+    <scalac srcdir="${src.dir}" destdir="${classes.dir}" scalacdebugging="true" deprecation="on">
       <classpath>
         <fileset dir="${dist.dir}/lib" includes="*.jar"/>
       </classpath>

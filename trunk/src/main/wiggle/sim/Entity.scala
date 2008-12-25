@@ -8,7 +8,5 @@ package wiggle.sim
  */
 trait Entity
 {
-  def logic (time :Float)
-
-  def render (time :Float)
+  def tick (time :Float)
 }

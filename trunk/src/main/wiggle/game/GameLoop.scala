@@ -8,6 +8,7 @@ import org.lwjgl.input.Keyboard
 import org.lwjgl.opengl._
 import org.lwjgl.util.Timer
 
+import wiggle.gfx.Element
 import wiggle.sim.Entity
 
 /**
@@ -44,8 +45,12 @@ class GameLoop (config :DisplayConfig)
     }
   }
 
-  def addEntity (entity :Entity) {
+  def add (entity :Entity) {
     _entities = entity :: _entities
+  }
+
+  def add (element :Element) {
+    _elements = element :: _elements
   }
 
   def stop () {
@@ -82,7 +87,9 @@ class GameLoop (config :DisplayConfig)
 
   protected def logic () {
     if (Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)) stop
-    _entities.foreach(_.logic(_timer.getTime))
+
+    // tick our entities
+    for (entity <- _entities) entity.tick(_timer.getTime)
   }
 
   protected def render () {
@@ -91,11 +98,12 @@ class GameLoop (config :DisplayConfig)
     GL11.glMatrixMode(GL11.GL_MODELVIEW)
     GL11.glLoadIdentity()
 
-    // render our entities
-    _entities.foreach(_.render(_timer.getTime))
+    // render our elements
+    for (element <- _elements) element.render(_timer.getTime)
   }
 
   protected var _running = false
   protected var _timer = new Timer
   protected var _entities :List[Entity] = Nil
+  protected var _elements :List[Element] = Nil
 }
