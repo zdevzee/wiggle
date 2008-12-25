@@ -5,7 +5,7 @@ package wiggle.gfx
 
 import org.lwjgl.opengl.GL11
 
-import wiggle.util.Setter
+import wiggle.util.Mutator
 
 /**
  * A visual element, something rendered to the screen.
@@ -25,22 +25,48 @@ abstract class Element
   var yscale :Float = 1
 
   /** This element's orientation, in degrees (blame OpenGL). */
-  var orient :Float = 1
+  var orient :Float = 0
 
   /** Returns an option on this element's parent. */
   def parent :Option[Group] = _parent
 
-  def xS = new Setter {
-    override protected def get = x
-    override protected def set (value :Float) {
+  /** Returns a mutator for our x position. */
+  def xM = new Mutator {
+    override protected def apply = x
+    override protected def update (value :Float) {
       x = value
     }
   }
 
-  def yS = new Setter {
-    override protected def get = y
-    override protected def set (value :Float) {
+  /** Returns a mutator for our y position. */
+  def yM = new Mutator {
+    override protected def apply = y
+    override protected def update (value :Float) {
       y = value
+    }
+  }
+
+  /** Returns a mutator for our x scale. */
+  def xscaleM = new Mutator {
+    override protected def apply = xscale
+    override protected def update (value :Float) {
+      xscale = value
+    }
+  }
+
+  /** Returns a mutator for our y scale. */
+  def yscaleM = new Mutator {
+    override protected def apply = yscale
+    override protected def update (value :Float) {
+      yscale = value
+    }
+  }
+
+  /** Returns a mutator for our orientation. */
+  def orientM = new Mutator {
+    override protected def apply = orient
+    override protected def update (value :Float) {
+      orient = value
     }
   }
 

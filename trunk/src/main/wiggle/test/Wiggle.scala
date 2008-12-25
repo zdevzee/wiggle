@@ -38,19 +38,19 @@ object Wiggle
     val config = DisplayConfig("Hello world!", 60, 800, 600)
     var loop :GameLoop = new GameLoop(config)
 
-//     val group = new Group
-//     for (x <- 0.to(800).by(100) ; y <- 0.to(600).by(100)) group.add(new Square(x, y))
-//     loop.add(group)
+    val group = new Group with Entity
+    for (x <- 0.to(800).by(100) ; y <- 0.to(600).by(100); if (y != 300)) {
+      var square = new Square
+      square.move(x, y)
+      group.add(square)
+    }
+    loop.add(group)
 
     val square = new Square with Entity
     square.move(0, config.height/2)
-    square.add(new Task {
-      override def tick (time :Float) = {
-        square.orient = square.orient + 4.0f % 360 // rotate the square
-        false // we're never done
-      }
-    })
-    square.add(square.xS.easeInOut(config.width/2, 1).delay(1).easeInOut(0, 1))
+    square.add(square.orientM.linear(360, 2).set(0).repeat)
+    square.add(square.xM.easeInOut(config.width/2, 1).delay(1).easeInOut(config.width, 1).
+               easeIn(config.width/2, 1).easeOut(0, 1).repeat)
     loop.add(square)
     loop.run
   }
