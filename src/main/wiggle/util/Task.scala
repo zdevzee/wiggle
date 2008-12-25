@@ -12,7 +12,7 @@ abstract class Task
   /** Initializes a task and prepares it for execution. A task should reset any internal state in
    * this method as it may be reinitialized and reused after being used once. The call to
    * {@link #init} will immediately be followed by a call to {@link #tick}. */
-  def init (time :Float) :Unit {
+  def init (time :Float) {
   }
 
   /** Ticks the task, causing it to perform its operation.
@@ -42,26 +42,15 @@ object Task
   /** Creates a task that executes the supplied tasks after the specified delay. */
   def after (delay :Float, task :Task) = sequence(new Delay(delay), task)
 
-  /** Delays for the specified period. Generally used with {@link SerialTask} for fun and profit. */
-  class Delay (delay :Float) extends Task
-  {
-    override def init (time :Float) = {
-      _end = time + delay
-    }
-
-    override def tick (time :Float) = {
-      time > _end
-    }
-
-    protected var _end :Float = 0
-  }
+  /** Repeats the supplied task indefinitely. */
+  def repeat (task :Task) = new Repeat(task)
 
   /** Performs many tasks in parallel and completes when all of its subtasks have completed. */
   class Parallel (tasks :Seq[Task]) extends Task
   {
     assert(tasks.length > 0)
 
-    override def init (time :Float) :Unit = {
+    override def init (time :Float) {
       var idx = 0; while (idx < _tasks.length) {
         _tasks(idx).init(time)
       }
@@ -87,7 +76,7 @@ object Task
   {
     assert(tasks.length > 0)
 
-    override def init (time :Float) = {
+    override def init (time :Float) {
       _remain = _tasks
     }
 
@@ -106,5 +95,34 @@ object Task
     protected val _tasks = tasks.toList
     protected var _active :Task = null
     protected var _remain :List[Task] = null
+  }
+
+  /** Delays for the specified period. Generally used with {@link SerialTask} for fun and profit. */
+  class Delay (delay :Float) extends Task
+  {
+    override def init (time :Float) {
+      _end = time + delay
+    }
+
+    override def tick (time :Float) = {
+      time > _end
+    }
+
+    protected var _end :Float = 0
+  }
+
+  /** Repeats the supplied task over and over again. */
+  class Repeat (task :Task) extends Task
+  {
+    override def init (time :Float) {
+      task.init(time)
+    }
+
+    override def tick (time :Float) = {
+      if (task.tick(time)) {
+        task.init(time) // reinit every time we finish
+      }
+      false
+    }
   }
 }
