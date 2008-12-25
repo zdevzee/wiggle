@@ -1,34 +1,31 @@
 //
 // $Id$
 
-package wiggle.sim
+package wiggle.util
 
 import scala.collection.jcl.ArrayList
 
 /**
- * A simulated entity, which has a collection of tasks.
+ * A trait used by things that wish to maintain a list of tasks and tick those tasks every frame.
  */
-trait Entity
+trait Taskable
 {
-  /** Returns a view of this entity's tasks. */
+  /** Returns a view of our tasks. */
   def tasks :Seq[Task] = _tasks
 
-  /** Adds a task to this entity. The task will be initialized and ticked on the next call to
+  /** Adds a task to this taskable. The task will be initialized and ticked on the next call to
    * {@link #tick}. If we're in the middle of ticking, this task won't participate in this tick. */
   def add (task :Task) {
     _newTasks = task :: _newTasks
   }
 
-  /** Removes a task from this entity. The task will be removed on the next call to {@link #tick}.
+  /** Removes a task from this taskable. The task will be removed on the next call to {@link #tick}.
    * If we're in the middle of ticking this task will not be removed until the next call. */
   def remove (task :Task) = {
     _deadTasks = task :: _deadTasks
   }
 
-  /** Called once every frame to update the state of this entity and tick each of its tasks.
-   *
-   *  @param time the current timestamp.
-   */
+  /** Adds newly registered tasks, removes pending deletions and ticks all active tasks. */
   def tick (time :Float) {
     // add any new tasks to our current tasks list
     while (_newTasks.length > 0) {

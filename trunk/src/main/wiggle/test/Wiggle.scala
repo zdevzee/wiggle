@@ -6,12 +6,13 @@ package wiggle.test
 import org.lwjgl.opengl.GL11
 
 import wiggle.game.DisplayConfig
+import wiggle.game.Entity
 import wiggle.game.GameLoop
 import wiggle.gfx.Element
 import wiggle.gfx.Group
-import wiggle.sim.Entity
-import wiggle.sim.Task
 import wiggle.util.Interpolator
+import wiggle.util.Task
+import wiggle.util.Taskable
 
 /**
  * A simple test program.
@@ -22,7 +23,7 @@ object Wiggle
     move(sx, sy)
 
     override def renderElement (time :Float) {
-      orient.set(orient.get + 4.0f % 360); // rotate the square
+      orient = orient + 4.0f % 360 // rotate the square
 
       GL11.glBegin(GL11.GL_QUADS)
       GL11.glColor3f(1, 0, 1)
@@ -45,12 +46,9 @@ object Wiggle
 //     for (x <- 0.to(800).by(100) ; y <- 0.to(600).by(100)) group.add(new Square(x, y))
 //     loop.add(group)
 
-    val square = new Square(0, config.height/2)
+    val square = new Square(0, config.height/2) with Entity
+    square.add(square.xS.easeInOut(config.width/2, 1).delay(1).easeInOut(0, 1))
     loop.add(square)
-    val mover = new Object with Entity
-    mover.add(square.x.easeInOut(config.width/2, 1).then(Task.delay(1))
-              .then(square.x.easeInOut(0, 1)))
-    loop.add(mover)
     loop.run
   }
 
