@@ -36,8 +36,8 @@
 
   <!-- compiles the code -->
   <target name="compile" depends="init" description="Compiles the code.">
-    <delete dir="${classes.dir}"/>
-    <mkdir dir="${classes.dir}"/>
+    <!--<delete dir="${classes.dir}"/>
+    <mkdir dir="${classes.dir}"/>-->
     <scalac srcdir="${src.dir}" destdir="${classes.dir}" scalacdebugging="true" deprecation="on">
       <classpath>
         <fileset dir="${dist.dir}/lib" includes="*.jar"/>
@@ -53,6 +53,8 @@
 
   <!-- runs our application in test mode -->
   <target name="test" depends="compile">
+    <fail message="Specify the test class with -Dtest=TestClass" unless="test"/>
+
     <condition property="nativedir" value="linux">
       <and><os family="unix"/><not><os family="mac"/></not></and>
     </condition>
@@ -60,11 +62,13 @@
       <and><os family="unix"/><os family="mac"/></and>
     </condition>
 
-    <java fork="true" maxmemory="256M" classname="wiggle.test.Wiggle">
+    <java fork="true" maxmemory="256M" classname="wiggle.test.${test}">
       <sysproperty key="java.library.path" value="${lwjgl.home}/native/${nativedir}"/>
       <classpath>
         <fileset dir="${dist.dir}/lib" includes="*.jar"/>
         <pathelement location="${classes.dir}"/>
+	<!-- provides access to test resources -->
+        <pathelement location="rsrc"/>
       </classpath>
     </java>
   </target>

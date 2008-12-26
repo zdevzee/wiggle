@@ -54,6 +54,4 @@ object Wiggle
     loop.add(square)
     loop.run
   }
-
-  protected val FRAMERATE = 60
 }
