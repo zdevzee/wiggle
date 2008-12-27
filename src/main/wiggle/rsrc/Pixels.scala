@@ -8,14 +8,21 @@ import java.nio.ByteBuffer
 /**
  * Contains pixel data converted for use as a texture.
  */
-abstract class Pixels
-{
-  /** This image's width. */
-  val width :Float
+class Pixels (
+  /** The image data's width in pixels. */
+  val width :Int,
 
-  /** This image's height. */
-  val height :Float
+  /** The image data's height in pixels. */
+  val height :Int,
+
+  /** This image data's bit depth. */
+  val depth :Int,
+
+  /** The width of the texture image in pixels. */
+  val texWidth :Int,
+
+  /** The height of the texture image in pixels. */
+  val texHeight :Int,
 
   /** This image's raw data. */
-  val data :ByteBuffer
-}
+  val data :ByteBuffer)
