@@ -15,9 +15,9 @@ import wiggle.util.Task
 import wiggle.util.Taskable
 
 /**
- * A simple test program.
+ * A test of the easing functions.
  */
-object Wiggle
+object EasingTest
 {
   class Square extends Element {
     override def renderElement (time :Float) {
