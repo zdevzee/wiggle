@@ -46,28 +46,47 @@ object ResourceLoader
 }
 
 package wiggle.rsrc.tests {
+  import java.io.InputStream
+  import scala.io.Source
   import org.scalatest.Suite
 
   class ResourceLoaderSuite extends Suite {
+    val root = System.getProperty("user.dir")
+    val refpath = "rsrc/test.txt"
+
+    def contents (file :File) = Source.fromFile(file).getLines.toList.reduceLeft(_+_)
+    def contents (is :InputStream) = Source.fromInputStream(is).getLines.toList.reduceLeft(_+_)
+
     def testViaFileSystem () {
-      val root = System.getProperty("user.dir")
-      val fpath = "rsrc/test.txt"
       val floader = new ResourceLoader(ResourceLoader.viaFileSystem(root))
-      val frsrc = floader.get(fpath)
-      println(frsrc.asFile match {
-        case None => fail("FileSystem loader returned stream for " + fpath)
-        case Some(file) => expect(new File(root, fpath).getPath) { file.getPath }
-      })
+
+      // load things that don't exist
+      expect(None) { floader.getOption("nonexistent") }
+      intercept(classOf[NoSuchElementException]) { floader.get("nonexistent") }
+
+      // load something that does exist
+      floader.get(refpath).asFile match {
+        case None => fail("FileSystem loader found no file at " + refpath)
+        case Some(file) => {
+          val reference = new File(root, refpath)
+          expect(reference.getPath) { file.getPath }
+          expect(contents(reference)) { contents(file) }
+        }
+      }
     }
 
     def testViaClassPath () {
       val cppath = "test.txt"
       val cploader = new ResourceLoader(ResourceLoader.viaClassPath(getClass.getClassLoader))
+
+      // load things that don't exist
+      expect(None) { cploader.getOption("nonexistent") }
+      intercept(classOf[NoSuchElementException]) { cploader.get("nonexistent") }
+
+      // load something that does exist
       val cprsrc = cploader.get(cppath)
-      println(cprsrc.asFile match {
-        case None => assert(cprsrc.asStream != null)
-        case Some(file) => fail("ClassPath loader returned stream for " + cppath)
-      })
+      expect(None) { cprsrc.asFile }
+      expect(contents(new File(root, refpath))) { contents(cprsrc.asStream) }
     }
   }
 }
