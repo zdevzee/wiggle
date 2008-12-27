@@ -64,6 +64,18 @@
     </jar>
   </target>
 
+  <!-- builds our scaladoc documentation -->
+  <target name="docs" depends="compile">
+    <mkdir dir="${dist.dir}/docs"/>
+    <scaladoc windowtitle="Wiggle" doctitle="Wiggle API" deprecation="yes" unchecked="yes"
+              srcdir="${src.dir}" destdir="${dist.dir}/docs">
+      <classpath>
+        <fileset dir="${dist.dir}/lib" includes="*.jar"/>
+      </classpath>
+      <include name="**/*.scala"/>
+    </scaladoc>
+  </target>
+
   <!-- runs our unit tests -->
   <target name="tests" depends="compile">
     <taskdef name="scalatest" classname="org.scalatest.tools.ScalaTestTask">
