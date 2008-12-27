@@ -66,7 +66,16 @@
 
   <!-- runs our unit tests -->
   <target name="tests" depends="compile">
-
+    <taskdef name="scalatest" classname="org.scalatest.tools.ScalaTestTask">
+      <classpath><fileset dir="lib" includes="scalatest*.jar"/>
+      <pathelement location="${dist.dir}/lib/scala-library.jar"/></classpath>
+    </taskdef>
+    <scalatest>
+      <runpath>
+        <pathelement location="${classes.dir}"/>
+        <pathelement location="rsrc"/> <!-- test resources -->
+      </runpath>
+    </scalatest>
   </target>
 
   <!-- runs a test appliation -->
@@ -85,8 +94,7 @@
       <classpath>
         <fileset dir="${dist.dir}/lib" includes="*.jar"/>
         <pathelement location="${classes.dir}"/>
-	<!-- provides access to test resources -->
-        <pathelement location="rsrc"/>
+        <pathelement location="rsrc"/> <!-- test resources -->
       </classpath>
     </java>
   </target>
