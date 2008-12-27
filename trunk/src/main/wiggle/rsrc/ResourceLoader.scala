@@ -45,6 +45,9 @@ object ResourceLoader
   }
 }
 
+/**
+ * Unit tests for the ResourceLoader.
+ */
 package wiggle.rsrc.tests {
   import java.io.InputStream
   import scala.io.Source
