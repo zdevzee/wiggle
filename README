@@ -1,0 +1,47 @@
+Wiggle
+------
+
+Wiggle is a game development library/framework for Scala that uses LWJGL and
+hence OpenGL and OpenAL for visualization and noise making.
+
+It aspires to contain the following components (and probably more as I
+undertake ever more sophisticated experiments):
+
+- resource loading and management (image and sound data, textures) (in progress)
+- 2D scene graph (vector, image and text rendering) (in progress)
+- entities and tasks for simulation and animation (in progress)
+- particle effect system (not started)
+- sound effect and music playback (not started)
+
+Some day Wiggle will be useful for actual game development, but presently it's
+main purpose in life is to allow me to experiment with new and/or more succinct
+ways to express the myriad APIs that go into game development.
+
+I hope with Wiggle to achieve the same "scalability" (simple things are simple
+and succinct, powerful things are possible and not much more complex) that
+Scala has enabled in other programming domains.
+
+Building
+--------
+
+You need three things:
+
+1. Ant (1.7 or newer) - http://ant.apache.org/
+2. Scala (2.7.2 or newer) - http://scala-lang.org/
+3. LWJGL (2.0.1 or newer) - http://lwjgl.org/
+
+Copy build.properties.dist to build.properties and specify the paths to your
+Scala and LWJGL installations and then run:
+
+% ant -Dtest=EasingTest test
+
+to build the library and execute a test program.
+
+Building has been tested on Linux and Mac OS X and will probably not work on
+Windows, though that should be easily accomplished with a small bit of ant
+fiddling in the "test" task.
+
+Comments
+--------
+
+Feedback is welcome at <mdb@samskivert.com>.
