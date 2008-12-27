@@ -65,7 +65,7 @@
   </target>
 
   <!-- builds our scaladoc documentation -->
-  <target name="docs" depends="compile">
+  <target name="docs" depends="compile" description="Builds the scaladoc documentation.">
     <mkdir dir="${dist.dir}/docs"/>
     <scaladoc windowtitle="Wiggle" doctitle="Wiggle API" deprecation="yes" unchecked="yes"
               srcdir="${src.dir}" destdir="${dist.dir}/docs">
@@ -91,9 +91,8 @@
   </target>
 
   <!-- runs a demo appliation -->
-  <target name="demo" depends="compile">
-    <fail message="Specify the class with -Ddemo=Name (ie. -Ddemo=Easing)" unless="demo"/>
-
+  <property name="demo" value="Easing"/>
+  <target name="demo" depends="compile" description="Runs a demo; specify which with -Ddemo=Demo.">
     <condition property="nativedir" value="linux">
       <and><os family="unix"/><not><os family="mac"/></not></and>
     </condition>
