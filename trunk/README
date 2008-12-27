@@ -33,9 +33,9 @@ You need three things:
 Copy build.properties.dist to build.properties and specify the paths to your
 Scala and LWJGL installations and then run:
 
-% ant -Dtest=EasingTest test
+% ant -Ddemo=Easing demo
 
-to build the library and execute a test program.
+to build the library and execute a demonstration program.
 
 Building has been tested on Linux and Mac OS X and will probably not work on
 Windows, though that should be easily accomplished with a small bit of ant
