@@ -18,6 +18,7 @@
       <fileset dir="${scala.home}" includes="lib/scala-library.jar"/>
       <fileset dir="${lwjgl.home}" includes="jar/lwjgl.jar"/>
       <fileset dir="${lwjgl.home}" includes="jar/lwjgl_util.jar"/>
+      <fileset dir="lib" includes="scalatest*.jar"/>
     </copy>
 
     <!-- set up our scala ant tasks -->
@@ -36,8 +37,8 @@
 
   <!-- compiles the code -->
   <target name="compile" depends="init" description="Compiles the code.">
-    <!--<delete dir="${classes.dir}"/>
-    <mkdir dir="${classes.dir}"/>-->
+    <!--<delete dir="${classes.dir}"/>-->
+    <mkdir dir="${classes.dir}"/>
     <scalac srcdir="${src.dir}" destdir="${classes.dir}" scalacdebugging="true" deprecation="on">
       <classpath>
         <fileset dir="${dist.dir}/lib" includes="*.jar"/>
@@ -48,10 +49,27 @@
 
   <!-- jars our bits up -->
   <target name="dist" depends="compile" description="Compiles and jars the code.">
-    <jar basedir="${classes.dir}" destfile="${dist.dir}/${app.name}.jar"/>
+    <jar destfile="${dist.dir}/${app.name}.jar">
+      <fileset dir="${classes.dir}">
+        <include name="**/*.class"/>
+        <exclude name="**/test/*.class"/>
+        <exclude name="**/tests/*.class"/>
+      </fileset>
+    </jar>
+    <jar destfile="${dist.dir}/${app.name}-test.jar">
+      <fileset dir="${classes.dir}">
+        <include name="**/test/*.class"/>
+        <include name="**/tests/*.class"/>
+      </fileset>
+    </jar>
   </target>
 
-  <!-- runs our application in test mode -->
+  <!-- runs our unit tests -->
+  <target name="tests" depends="compile">
+
+  </target>
+
+  <!-- runs a test appliation -->
   <target name="test" depends="compile">
     <fail message="Specify the test class with -Dtest=TestClass" unless="test"/>
 

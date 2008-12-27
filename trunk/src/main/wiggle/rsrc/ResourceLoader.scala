@@ -44,3 +44,30 @@ object ResourceLoader
     if (file.exists) Some(Resource.fileResource(file)) else None
   }
 }
+
+package wiggle.rsrc.tests {
+  import org.scalatest.Suite
+
+  class ResourceLoaderSuite extends Suite {
+    def testViaFileSystem () {
+      val root = System.getProperty("user.dir")
+      val fpath = "rsrc/test.txt"
+      val floader = new ResourceLoader(ResourceLoader.viaFileSystem(root))
+      val frsrc = floader.get(fpath)
+      println(frsrc.asFile match {
+        case None => fail("FileSystem loader returned stream for " + fpath)
+        case Some(file) => expect(new File(root, fpath).getPath) { file.getPath }
+      })
+    }
+
+    def testViaClassPath () {
+      val cppath = "test.txt"
+      val cploader = new ResourceLoader(ResourceLoader.viaClassPath(getClass.getClassLoader))
+      val cprsrc = cploader.get(cppath)
+      println(cprsrc.asFile match {
+        case None => assert(cprsrc.asStream != null)
+        case Some(file) => fail("ClassPath loader returned stream for " + cppath)
+      })
+    }
+  }
+}
