@@ -3,7 +3,7 @@
 
 package wiggle.test
 
-import wiggle.util.ResourceLoader
+import wiggle.rsrc.ResourceLoader
 
 /**
  * Tests the {@link ResourceLoader} class. TODO: wire up a unit test framework.

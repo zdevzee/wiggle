@@ -1,7 +1,7 @@
 //
 // $Id$
 
-package wiggle.util
+package wiggle.rsrc
 
 import java.io.File
 
