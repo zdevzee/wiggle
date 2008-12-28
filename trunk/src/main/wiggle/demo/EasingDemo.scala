@@ -15,7 +15,7 @@ import util.{Interpolator, Task, Taskable}
 object EasingDemo
 {
   def makeSquare = Primitive.makeColorVertex(4).
-    color(Color.Red).vertex(-50, -50).
+    color(Color.Blue).vertex(-50, -50).
     color(Color.White).vertex(50, -50).
     color(Color.Blue).vertex(50, 50).
     color(Color.White).vertex(-50, 50).buildQuads
