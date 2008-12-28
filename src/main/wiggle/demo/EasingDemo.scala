@@ -5,9 +5,9 @@ package wiggle.demo
 
 import org.lwjgl.opengl.GL11
 
-import wiggle.game.{DisplayConfig, Entity, GameLoop}
-import wiggle.gfx.{Color, Element, Group, Primitive}
-import wiggle.util.{Interpolator, Task, Taskable}
+import game.{DisplayConfig, Entity, GameLoop}
+import gfx.{Color, Element, Group, Primitive}
+import util.{Interpolator, Task, Taskable}
 
 /**
  * A demonstration of the easing functions.
@@ -25,10 +25,14 @@ object EasingDemo
     var loop :GameLoop = new GameLoop(config)
 
     val group = new Group with Entity
-    for (x <- 0.to(800).by(100) ; y <- 0.to(600).by(100); if (y != 300)) {
+    var idx = 0
+    for (y <- 600.to(0).by(-100); x <- 0.to(800).by(100); if (y != 300)) {
       var square = makeSquare
-      square.move(x, y)
+      square.move(x, -100)
       group.add(square)
+      group.add(square.yM.delay((600-y)/600f + 0.5f*(x/600f)).easeIn(y, 1))
+      group.add(square.orientM.delay(2.5f).easeInOut(90, 1))
+      idx = idx + 1
     }
     loop.add(group)
 
