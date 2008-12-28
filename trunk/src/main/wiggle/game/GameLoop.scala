@@ -20,27 +20,16 @@ class GameLoop (config :DisplayConfig)
     init
 
     while (_running) {
-      Display.update // update the display
-      Timer.tick // update the Timer system
+      Timer.tick() // update the Timer system
 
       if (Display.isCloseRequested) {
-        stop
-
-      } else if (Display.isActive) {
-        logic
-        render
-        Display.sync(config.framerate)
+        stop()
 
       } else {
-        // our window is not active, sleep for a bit to consume less CPU
-        try {
-          Thread.sleep(100)
-        } catch {
-          case e :Exception => Console.println("Sleep failed " + e)
-        }
-
-        logic
-        if (Display.isVisible || Display.isDirty) render
+        logic()
+        if (Display.isVisible || Display.isDirty) render()
+        Display.update()
+        Display.sync(config.framerate)
       }
     }
   }
