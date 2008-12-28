@@ -5,16 +5,9 @@ package wiggle.demo
 
 import org.lwjgl.opengl.GL11
 
-import wiggle.game.DisplayConfig
-import wiggle.game.Entity
-import wiggle.game.GameLoop
-import wiggle.gfx.Color
-import wiggle.gfx.Element
-import wiggle.gfx.Group
-import wiggle.gfx.Primitive
-import wiggle.util.Interpolator
-import wiggle.util.Task
-import wiggle.util.Taskable
+import wiggle.game.{DisplayConfig, Entity, GameLoop}
+import wiggle.gfx.{Color, Element, Group, Primitive}
+import wiggle.util.{Interpolator, Task, Taskable}
 
 /**
  * A demonstration of the easing functions.
