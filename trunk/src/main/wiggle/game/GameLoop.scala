@@ -17,10 +17,10 @@ import util.Taskable
 class GameLoop (config :DisplayConfig)
 {
   def run () {
-    init
+    init()
 
     while (_running) {
-      Timer.tick() // update the Timer system
+      Timer.tick() // update the LWJGL Timer system
 
       if (Display.isCloseRequested) {
         stop()
