@@ -97,7 +97,7 @@ object Task
     protected var _remain :List[Task] = null
   }
 
-  /** Delays for the specified period. Generally used with {@link SerialTask} for fun and profit. */
+  /** Delays for the specified period. Generally used with {@link Sequence} for fun and profit. */
   class Delay (delay :Float) extends Task
   {
     override def init (time :Float) {

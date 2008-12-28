@@ -8,8 +8,8 @@ import org.lwjgl.input.Keyboard
 import org.lwjgl.opengl._
 import org.lwjgl.util.Timer
 
-import wiggle.gfx.Element
-import wiggle.util.Taskable
+import gfx.Element
+import util.Taskable
 
 /**
  * Handles the main game loop.
