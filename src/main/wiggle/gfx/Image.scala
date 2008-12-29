@@ -3,6 +3,8 @@
 
 package wiggle.gfx
 
+import org.lwjgl.opengl.GL11
+
 /**
  * An element that displays a bitmapped image.
  */
@@ -14,7 +16,7 @@ class Image (texture :Texture) extends Element
   }
 
   protected val _quad = Primitive.makeTexCoordVertex(4).texCoord(0, 0).vertex(0, 0).
-    texCoord(1, 0).vertex(texture.width, 0).
-    texCoord(1, 1).vertex(texture.width, texture.height).
-    texCoord(0, 1).vertex(0, texture.height).buildQuads
+    texCoord(texture.texRight, 0).vertex(texture.width, 0).
+    texCoord(texture.texRight, texture.texBottom).vertex(texture.width, texture.height).
+    texCoord(0, texture.texBottom).vertex(0, texture.height).buildQuads
 }

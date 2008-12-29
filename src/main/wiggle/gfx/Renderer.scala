@@ -7,14 +7,14 @@ import org.lwjgl.BufferUtils
 import org.lwjgl.opengl.GL11
 
 /**
- * Manages the graphics context and tracks the current OpenGL state so as to avoid repeating
- * ourself when rendering.
+ * Manages the graphics context and tracks the current OpenGL state.
  */
 class Renderer
 {
-  /** Binds the supplied texture. If the texture is already bound, this method NOOPs. */
+  /** Binds the supplied texture. NOOPs if the texture is already bound. */
   def bind (texture :Texture) {
     if (texture != _curtex) {
+      _curtex = texture
       GL11.glEnable(GL11.GL_TEXTURE_2D)
       GL11.glBindTexture(GL11.GL_TEXTURE_2D, texture.id)
     }

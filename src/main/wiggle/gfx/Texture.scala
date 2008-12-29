@@ -27,6 +27,12 @@ class Texture (val key :PixelsKey, source :Pixels, renderer :Renderer, val id :I
   /** The height of our texture image in pixels (will be a power of 2). */
   val texHeight = source.texHeight
 
+  /** Returns coordinate to use for the right side of the texture (left being 0). */
+  def texRight = width / texWidth.toFloat
+
+  /** Returns coordinate to use for the bottom of the texture (top being 0). */
+  def texBottom = height / texHeight.toFloat
+
   /** When we are finalized, we tell the renderer about it so that it can free our resources. */
   override protected def finalize () {
     renderer.textureFinalized(this)

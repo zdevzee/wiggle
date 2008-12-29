@@ -44,10 +44,8 @@ class PixelsLoader (rldr :ResourceLoader)
     val texHeight = nextPowTwo(image.getHeight, 2)
     val hasAlpha = image.getColorModel.hasAlpha || key.forceAlpha
 
-    // for now we support only 24 or 32 bit depth
-    val bands = if (hasAlpha) 4 else 3
     val raster = Raster.createInterleavedRaster(
-      DataBuffer.TYPE_BYTE, texWidth, texHeight, bands, null)
+      DataBuffer.TYPE_BYTE, texWidth, texHeight, if (hasAlpha) 4 else 3, null)
     val cmodel = if (hasAlpha) GlAlphaColorModel else GlColorModel
     val texImage = new BufferedImage(cmodel, raster, false, null)
 
@@ -73,7 +71,7 @@ class PixelsLoader (rldr :ResourceLoader)
     data.put(bytes, 0, bytes.length)
     data.flip()
 
-    new Pixels(image.getWidth, image.getHeight, bands * BitsPerByte, texWidth, texHeight,
+    new Pixels(image.getWidth, image.getHeight, texWidth, texHeight,
                if (hasAlpha) GL11.GL_RGBA else GL11.GL_RGB, data)
   }
 
@@ -93,7 +91,4 @@ class PixelsLoader (rldr :ResourceLoader)
   protected val GlColorModel = new ComponentColorModel(
     ColorSpace.getInstance(ColorSpace.CS_sRGB), Array(8, 8, 8, 0), false, false,
     Transparency.OPAQUE, DataBuffer.TYPE_BYTE);
-
-  /** The number of bits per byte. For great magic number avoidance. */
-  protected val BitsPerByte = 8
 }
