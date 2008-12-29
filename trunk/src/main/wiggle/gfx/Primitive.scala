@@ -17,10 +17,12 @@ import org.lwjgl.opengl.GL11
 class Primitive (mode :Primitive.Mode, format :Primitive.Format, data :ByteBuffer, vcount :Int)
   extends Element
 {
-    override def renderElement (rend :Renderer, time :Float) {
-      GL11.glInterleavedArrays(format.code, 0, data)
-      GL11.glDrawArrays(mode.code, 0, vcount)
-    }
+  override def renderElement (rend :Renderer, time :Float) {
+    // if we have no texture coordinates, we need to clear out any active texture
+    if (format == Primitive.Format.Vertex || format == Primitive.Format.ColorVertex) rend.bindNone()
+    GL11.glInterleavedArrays(format.code, 0, data)
+    GL11.glDrawArrays(mode.code, 0, vcount)
+  }
 }
 
 object Primitive

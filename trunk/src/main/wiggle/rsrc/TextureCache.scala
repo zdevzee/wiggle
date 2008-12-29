@@ -46,9 +46,9 @@ class TextureCache (renderer :Renderer, pxlldr :PixelsLoader)
     val id = _idbuf.get(0)
     GL11.glBindTexture(GL11.GL_TEXTURE_2D, id); 
 
-    // TODO: configure our minify and magnify filters
-    // GL11.glTexParameteri(target, GL11.GL_TEXTURE_MIN_FILTER, minFilter)
-    // GL11.glTexParameteri(target, GL11.GL_TEXTURE_MAG_FILTER, magFilter) 
+    // TODO: allow customization of our minify and magnify filters
+    GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR)
+    GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_LINEAR) 
 
     // send our texture data over to OpenGL for grindy grindy
     GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGBA, pixels.texWidth, pixels.texHeight, 0,

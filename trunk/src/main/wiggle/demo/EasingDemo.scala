@@ -26,12 +26,13 @@ object EasingDemo
     var loop :GameLoop = new GameLoop(config)
     loop.init()
 
-    val tcache = new TextureCache(loop.renderer, new PixelsLoader(new ResourceLoader(ResourceLoader.viaClassPath(getClass.getClassLoader))))
+    val tcache = new TextureCache(loop.renderer, new PixelsLoader(
+      new ResourceLoader(ResourceLoader.viaClassPath(getClass.getClassLoader))))
 
     val group = new Group with Entity
     var idx = 0
     for (y <- 600.to(0).by(-100); x <- 0.to(800).by(100); if (y != 300)) {
-      var square = new Image(tcache.get(PixelsKey("card.gif", true, false)))
+      var square = new Image(tcache.get(PixelsKey("card.gif", false, false)))
       square.move(x, -100)
       group.add(square)
       group.add(square.yM.delay((600-y)/600f + 0.5f*(x/600f)).easeIn(y, 1))

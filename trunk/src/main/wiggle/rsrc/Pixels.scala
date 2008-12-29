@@ -15,9 +15,6 @@ class Pixels (
   /** The image data's height in pixels. */
   val height :Int,
 
-  /** This image data's bit depth. */
-  val depth :Int,
-
   /** The width of the texture image in pixels. */
   val texWidth :Int,
 
