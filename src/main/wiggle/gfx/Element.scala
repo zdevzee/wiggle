@@ -77,7 +77,7 @@ abstract class Element
   }
 
   /** Sets up our transforms and renders this element. */
-  def render (time :Float) {
+  def render (rend :Renderer, time :Float) {
     GL11.glPushMatrix
     if (x != 0 || y != 0) {
       GL11.glTranslatef(x, y, 0f)
@@ -87,7 +87,7 @@ abstract class Element
     }
     // TODO: scale
     try {
-      renderElement(time)
+      renderElement(rend, time)
     } finally {
       GL11.glPopMatrix
     }
@@ -103,7 +103,7 @@ abstract class Element
   }
 
   /** Called once the transforms are set up to render this element. */
-  protected def renderElement (time :Float)
+  protected def renderElement (rend :Renderer, time :Float)
 
   /** A reference to our parent in the display hierarchy. */
   protected var _parent :Option[Group] = None

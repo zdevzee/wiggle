@@ -6,7 +6,8 @@ package wiggle.demo
 import org.lwjgl.opengl.GL11
 
 import game.{DisplayConfig, Entity, GameLoop}
-import gfx.{Color, Element, Group, Primitive}
+import gfx.{Color, Element, Group, Primitive, Image}
+import rsrc.{PixelsLoader, PixelsKey, ResourceLoader, TextureCache}
 import util.{Interpolator, Task, Taskable}
 
 /**
@@ -23,11 +24,14 @@ object EasingDemo
   def main (args :Array[String]) {
     val config = DisplayConfig("Easing Demo", 60, 800, 600)
     var loop :GameLoop = new GameLoop(config)
+    loop.init()
+
+    val tcache = new TextureCache(loop.renderer, new PixelsLoader(new ResourceLoader(ResourceLoader.viaClassPath(getClass.getClassLoader))))
 
     val group = new Group with Entity
     var idx = 0
     for (y <- 600.to(0).by(-100); x <- 0.to(800).by(100); if (y != 300)) {
-      var square = makeSquare
+      var square = new Image(tcache.get(PixelsKey("card.gif", true, false)))
       square.move(x, -100)
       group.add(square)
       group.add(square.yM.delay((600-y)/600f + 0.5f*(x/600f)).easeIn(y, 1))

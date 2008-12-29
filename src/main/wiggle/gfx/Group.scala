@@ -40,10 +40,10 @@ class Group extends Element
     }
   }
 
-  override protected def renderElement (time :Float) {
+  override protected def renderElement (rend :Renderer, time :Float) {
     // this is the only way to iterate without creating garbage, sigh
     var idx = 0; val len = _children.length; while (idx < len) {
-      _children(idx).render(time)
+      _children(idx).render(rend, time)
       idx = idx+1
     }
   }
