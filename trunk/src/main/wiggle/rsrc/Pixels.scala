@@ -24,5 +24,9 @@ class Pixels (
   /** The height of the texture image in pixels. */
   val texHeight :Int,
 
+  /** The OpenGL image format identifier for this image data: GL_RGBA or GL_RGB. */
+  val format :Int,
+
   /** This image's raw data. */
-  val data :ByteBuffer)
+  val data :ByteBuffer
+)

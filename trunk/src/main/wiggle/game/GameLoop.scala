@@ -9,6 +9,7 @@ import org.lwjgl.opengl._
 import org.lwjgl.util.Timer
 
 import gfx.Element
+import gfx.Renderer
 import util.Taskable
 
 /**
@@ -16,9 +17,37 @@ import util.Taskable
  */
 class GameLoop (config :DisplayConfig)
 {
-  def run () {
-    init()
+  val renderer = new Renderer
 
+  def init () {
+    try {
+      Display.setTitle(config.title)
+      Display.setFullscreen(false)
+      Display.setVSyncEnabled(true)
+      Display.setDisplayMode(new DisplayMode(config.width, config.height))
+      Display.create // start by creating the display
+      _running = true
+
+      // set the background to black
+      GL11.glClearColor(0, 0, 0, 0)
+
+      // enable textures since we're going to use these for our sprites
+      GL11.glEnable(GL11.GL_TEXTURE_2D)
+
+      // disable the OpenGL depth test since we're rendering 2D graphics
+      GL11.glDisable(GL11.GL_DEPTH_TEST)
+
+      // set up ortho rendering mode and the canvas size
+      GL11.glMatrixMode(GL11.GL_PROJECTION)
+      GL11.glLoadIdentity()
+      GL11.glOrtho(0, config.width, config.height, 0, -1, 1)
+
+    } catch {
+      case e :LWJGLException => e.printStackTrace(System.err)
+    }
+  }
+
+  def run () {
     while (_running) {
       Timer.tick() // update the LWJGL Timer system
 
@@ -49,34 +78,6 @@ class GameLoop (config :DisplayConfig)
     _running = false
   }
 
-  protected def init () {
-    try {
-      Display.setTitle(config.title)
-      Display.setFullscreen(false)
-      Display.setVSyncEnabled(true)
-      Display.setDisplayMode(new DisplayMode(config.width, config.height))
-      Display.create // start by creating the display
-      _running = true
-
-      // set the background to black
-      GL11.glClearColor(0, 0, 0, 0)
-
-      // enable textures since we're going to use these for our sprites
-      GL11.glEnable(GL11.GL_TEXTURE_2D)
-
-      // disable the OpenGL depth test since we're rendering 2D graphics
-      GL11.glDisable(GL11.GL_DEPTH_TEST)
-
-      // set up ortho rendering mode and the canvas size
-      GL11.glMatrixMode(GL11.GL_PROJECTION)
-      GL11.glLoadIdentity()
-      GL11.glOrtho(0, config.width, config.height, 0, -1, 1)
-
-    } catch {
-      case e :LWJGLException => e.printStackTrace(System.err)
-    }
-  }
-
   protected def logic () {
     if (Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)) stop
 
@@ -91,11 +92,12 @@ class GameLoop (config :DisplayConfig)
     GL11.glLoadIdentity()
 
     // render our elements
-    for (element <- _elements) element.render(_timer.getTime)
+    for (element <- _elements) element.render(this.renderer, _timer.getTime)
   }
 
+  protected val _timer = new Timer
+
   protected var _running = false
-  protected var _timer = new Timer
   protected var _taskables :List[Taskable] = Nil
   protected var _elements :List[Element] = Nil
 }

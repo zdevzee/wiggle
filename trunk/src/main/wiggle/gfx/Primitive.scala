@@ -17,7 +17,7 @@ import org.lwjgl.opengl.GL11
 class Primitive (mode :Primitive.Mode, format :Primitive.Format, data :ByteBuffer, vcount :Int)
   extends Element
 {
-    override def renderElement (time :Float) {
+    override def renderElement (rend :Renderer, time :Float) {
       GL11.glInterleavedArrays(format.code, 0, data)
       GL11.glDrawArrays(mode.code, 0, vcount)
     }

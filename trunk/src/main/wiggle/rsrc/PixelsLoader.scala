@@ -14,28 +14,26 @@ import java.awt.image.Raster
 import javax.imageio.ImageIO
 
 import org.lwjgl.BufferUtils
+import org.lwjgl.opengl.GL11
 
 /**
  * Loads image data and prepares it for use as textures.
  */
 class PixelsLoader (rldr :ResourceLoader)
 {
-  /** Loads and returns the pixels with the specified path.
-   * @param config specifies how to convert the image data when loading.
+  /** Loads and returns the pixels with the specified key.
    * @throws NoSuchElementException if the pixels resource could not be found.
    */
-  def get (path :String, config :PixelsConfig) = loadPixels(rldr.get(path), config)
+  def get (key :PixelsKey) = loadPixels(rldr.get(key.path), key)
 
-  /** Locates and returns an option on the specified pixels.
-   * @param config specifies how to convert the image data when loading.
-   */
-  def getOption (path :String, config :PixelsConfig) = rldr.getOption(path) match {
-    case Some(rsrc) => loadPixels(rsrc, config)
+  /** Locates and returns an option on the specified pixels. */
+  def getOption (key :PixelsKey) = rldr.getOption(key.path) match {
+    case Some(rsrc) => Some(loadPixels(rsrc, key))
     case None => None
   }
 
   /** Loads and converts image data. */
-  protected def loadPixels (rsrc :Resource, config :PixelsConfig) :Pixels = {
+  protected def loadPixels (rsrc :Resource, key :PixelsKey) :Pixels = {
     val image = rsrc.asFile match {
       case Some(file) => ImageIO.read(file)
       case None => ImageIO.read(rsrc.asStream)
@@ -44,7 +42,7 @@ class PixelsLoader (rldr :ResourceLoader)
     // compute a texture size that is a power of two in both dimensions
     val texWidth = nextPowTwo(image.getWidth, 2)
     val texHeight = nextPowTwo(image.getHeight, 2)
-    val hasAlpha = image.getColorModel.hasAlpha || config.forceAlpha
+    val hasAlpha = image.getColorModel.hasAlpha || key.forceAlpha
 
     // for now we support only 24 or 32 bit depth
     val bands = if (hasAlpha) 4 else 3
@@ -59,7 +57,7 @@ class PixelsLoader (rldr :ResourceLoader)
     try {
       gfx.setColor(Blank)
       gfx.fillRect(0, 0, texWidth, texHeight)
-      if (config.flipped) {
+      if (key.flipped) {
         gfx.scale(1, -1)
         gfx.drawImage(image, 0, -image.getHeight, null)
       } else {
@@ -70,12 +68,13 @@ class PixelsLoader (rldr :ResourceLoader)
     }
 
     // extract the raw image data from the target image's raster
-    val bytes = texImage.getRaster.getDataBuffer.asInstanceOf[DataBufferByte].getData
+    val bytes = texImage.getData.getDataBuffer.asInstanceOf[DataBufferByte].getData
     val data = BufferUtils.createByteBuffer(bytes.length)
     data.put(bytes, 0, bytes.length)
     data.flip()
 
-    new Pixels(image.getWidth, image.getHeight, bands * BitsPerByte, texWidth, texHeight, data)
+    new Pixels(image.getWidth, image.getHeight, bands * BitsPerByte, texWidth, texHeight,
+               if (hasAlpha) GL11.GL_RGBA else GL11.GL_RGB, data)
   }
 
   /** Helper function for computing the next higher power of two for a value. */
