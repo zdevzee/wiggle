@@ -2,7 +2,7 @@
 # Build configuration for Wiggle
 
 # The location of your Scala distribution
-scala.home=/path/to/scala-2.7.3.RC3
+scala.home=/path/to/scala-2.7.3.RC1
 
 # The location of your LWJGL distribution
 lwjgl.home=/path/to/lwjgl-2.0.1
