@@ -4,13 +4,15 @@
 package wiggle.app
 
 import org.lwjgl.LWJGLException
-import org.lwjgl.input.Keyboard
-import org.lwjgl.opengl._
+import org.lwjgl.opengl.Display
+import org.lwjgl.opengl.DisplayMode
+import org.lwjgl.opengl.GL11
 import org.lwjgl.util.Timer
 
-import gfx.Element
-import gfx.Renderer
-import util.Taskable
+import wiggle.gfx.Element
+import wiggle.gfx.Renderer
+import wiggle.input.Keyboard
+import wiggle.util.Taskable
 
 /**
  * Handles the main application loop.
@@ -50,7 +52,10 @@ class App (config :DisplayConfig)
       GL11.glOrtho(0, config.width, config.height, 0, -1, 1)
       GL11.glMatrixMode(GL11.GL_MODELVIEW)
       GL11.glLoadIdentity()
-      
+
+      // TEMP: wire up a handler for exiting via they escape key
+      _keyboard.head.key(Keyboard.KEY_ESCAPE).addOnPress((key :Keyboard#Key) => { stop() ; false })
+
     } catch {
       case e :LWJGLException => e.printStackTrace(System.err)
     }
@@ -83,12 +88,22 @@ class App (config :DisplayConfig)
     // TODO
   }
 
+  def pushKeyboard (kbd :Keyboard) {
+    _keyboard = kbd :: _keyboard
+  }
+
+  def popKeyboard () {
+    require(_keyboard.tail != Nil, "Can't pop the default keyboard")
+    _keyboard = _keyboard.tail
+  }
+
   def stop () {
     _running = false
   }
 
   protected def logic () {
-    if (Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)) stop
+    // poll the keyboard, firing any registered handlers
+    _keyboard.head.poll()
 
     // tick our entities
     for (taskable <- _taskables) taskable.tick(_timer.getTime)
@@ -109,4 +124,6 @@ class App (config :DisplayConfig)
   protected var _running = false
   protected var _taskables :List[Taskable] = Nil
   protected var _elements :List[Element] = Nil
+
+  protected var _keyboard = List(new Keyboard(false))
 }

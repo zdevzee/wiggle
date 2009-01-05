@@ -7,8 +7,8 @@ import org.lwjgl.opengl.GL11
 import org.lwjgl.opengl.GL12
 import org.lwjgl.opengl.GL13
 
-import rsrc.Pixels
-import rsrc.PixelsKey
+import wiggle.rsrc.Pixels
+import wiggle.rsrc.PixelsKey
 
 /**
  * Contains metadata for an OpenGL 2D texture. (1D, 3D and cube map textures are not supported.)
