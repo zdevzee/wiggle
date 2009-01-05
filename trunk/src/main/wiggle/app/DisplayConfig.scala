@@ -1,7 +1,7 @@
 //
 // $Id$
 
-package wiggle.game
+package wiggle.app
 
 /**
  * Contains configuration for a display.
