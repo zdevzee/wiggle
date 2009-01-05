@@ -11,12 +11,15 @@ import org.lwjgl.input.{Keyboard => GLKeyboard}
  */
 class Keyboard (val repeatEnabled :Boolean)
 {
+  /** Define a type for our key event handlers. If the handler function returns true, it will
+   * remain registered, if it returns false, its registration will be removed. */
+  type Handler = (Key) => Boolean
+
   /** Represents a particular key and contains event handler mappings. */
-  class Key (val keyboard :Keyboard, val code :Int)
+  class Key (val code :Int)
   {
-    /** Define a type for our key event handlers. If the handler function returns true, it will
-     * remain registered, if it returns false, its registration will be removed. */
-    type Handler = (Key) => Boolean
+    /** Returns a reference to the keyboard with which this key is associated. */
+    def keyboard = Keyboard.this
 
     /** Returns true if this key is currently depressed, false if not. */
     def isDown = GLKeyboard.isKeyDown(code)
@@ -49,7 +52,7 @@ class Keyboard (val repeatEnabled :Boolean)
   def key (code :Int) :Key = _keys.get(code) match {
     case Some(key) => key
     case None => {
-      val key = new Key(this, code)
+      val key = new Key(code)
       _keys += (code -> key)
       key
     }
@@ -203,7 +206,7 @@ object Keyboard
 /**
  * Unit tests for the Keyboard.
  */
-package wiggle.input.tests {
+package tests {
   import org.scalatest.Suite
 
   class KeyboardSuite extends Suite {

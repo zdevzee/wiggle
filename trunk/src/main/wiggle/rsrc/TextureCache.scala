@@ -9,7 +9,7 @@ import scala.ref.WeakReference
 import org.lwjgl.BufferUtils
 import org.lwjgl.opengl.GL11
 
-import gfx.{Renderer, Texture}
+import wiggle.gfx.{Renderer, Texture}
 
 /**
  * Handles the creation and caching of textures.

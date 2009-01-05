@@ -46,7 +46,7 @@ object Color
   def fromRGBA (rgba :Int) = Color((rgba >> 8) & 0xFFFFFF, rgba & 0xFF)
 }
 
-package wiggle.gfx.tests {
+package tests {
   import org.scalatest.Suite
 
   class ColorSuite extends Suite {

@@ -5,10 +5,10 @@ package wiggle.demo
 
 import org.lwjgl.opengl.GL11
 
-import app.{App, DisplayConfig, Entity}
-import gfx.{Color, Element, Group, Image, Primitive}
-import rsrc.{PixelsLoader, PixelsKey, ResourceLoader, TextureCache}
-import util.{Interpolator, Task, Taskable}
+import wiggle.app.{App, DisplayConfig, Entity}
+import wiggle.gfx.{Color, Element, Group, Image, Primitive}
+import wiggle.rsrc.{PixelsLoader, PixelsKey, ResourceLoader, TextureCache}
+import wiggle.util.{Interpolator, Task, Taskable}
 
 /**
  * A demonstration of the easing functions.
@@ -23,8 +23,8 @@ object EasingDemo
 
   def main (args :Array[String]) {
     val config = DisplayConfig("Easing Demo", 60, 800, 600)
-    var loop :App = new App(config)
-    loop.init()
+    var app :App = new App(config)
+    app.init()
 
     val group = new Group with Entity
     var idx = 0
@@ -36,7 +36,7 @@ object EasingDemo
       group.add(square.orientM.delay(2.5f).easeInOut(90, 1))
       idx = idx + 1
     }
-    loop.add(group)
+    app.add(group)
 
     val mover = new Group with Entity
     mover.add(makeSquare)
@@ -44,7 +44,7 @@ object EasingDemo
     mover.add(mover.orientM.linear(360, 2).set(0).repeat)
     mover.add(mover.xM.easeInOut(config.width/2, 1).delay(1).easeInOut(config.width, 1).
               easeIn(config.width/2, 1).easeOut(0, 1).repeat)
-    loop.add(mover)
-    loop.run
+    app.add(mover)
+    app.run
   }
 }

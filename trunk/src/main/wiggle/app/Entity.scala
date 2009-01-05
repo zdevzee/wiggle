@@ -3,7 +3,7 @@
 
 package wiggle.app
 
-import util.Taskable
+import wiggle.util.Taskable
 
 /**
  * A trait used by objects that are managed by the game system.

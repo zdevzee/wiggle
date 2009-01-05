@@ -5,7 +5,7 @@ package wiggle.gfx
 
 import org.lwjgl.opengl.GL11
 
-import util.Mutator
+import wiggle.util.Mutator
 
 /**
  * A visual element, something rendered to the screen.
