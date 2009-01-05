@@ -46,7 +46,14 @@ class Keyboard (val repeatEnabled :Boolean)
   }
 
   /** Returns the key for the specified key code. */
-  def key (code :Int) :Key = _keys.getOrElseUpdate(code, new Key(this, code))
+  def key (code :Int) :Key = _keys.get(code) match {
+    case Some(key) => key
+    case None => {
+      val key = new Key(this, code)
+      _keys += (code -> key)
+      key
+    }
+  }
 
   /** Processes pending keyboard events and dispatches them to listeners. Called once per frame by
    * the application when this keyboard is active. */
@@ -62,7 +69,7 @@ class Keyboard (val repeatEnabled :Boolean)
   }
 
   /** A mapping of all keys that have been requested. */
-  private[this] var _keys = scala.collection.mutable.Map[Int, Key]()
+  private[this] var _keys = Map[Int, Key]()
 }
 
 object Keyboard
