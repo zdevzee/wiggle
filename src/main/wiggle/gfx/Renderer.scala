@@ -38,24 +38,24 @@ class Renderer
   }
 
   /** Called by a texture when it is finalized. */
-  protected[gfx] def textureFinalized (texture :Texture) :Unit = synchronized {
+  private[gfx] def textureFinalized (texture :Texture) :Unit = synchronized {
     _finalTexs = texture :: _finalTexs
   }
 
   /** Returns the list of textures waiting for destruction, and clears the list. */
-  protected def takeFinalTexs () = synchronized {
+  private[this] def takeFinalTexs () = synchronized {
     val ftexs = _finalTexs
     _finalTexs = Nil
     ftexs
   }
 
   /** The currently bound texture. */
-  protected var _curtex :Texture = null
+  private[this] var _curtex :Texture = null
 
   /** A buffer used to communicate with OpenGL. */
-  protected var _idbuf = BufferUtils.createIntBuffer(1)
+  private[this] var _idbuf = BufferUtils.createIntBuffer(1)
 
   /** A list of finalized textures to be destroyed on the next frame. Beware: this field must only
    * be accessed in a synchronized block */
-  protected var _finalTexs :List[Texture] = Nil
+  private[this] var _finalTexs :List[Texture] = Nil
 }

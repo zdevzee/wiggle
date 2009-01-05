@@ -15,7 +15,7 @@ class Image (texture :Texture) extends Element
     _quad.render(rend, time)
   }
 
-  protected val _quad = Primitive.makeTexCoordVertex(4).texCoord(0, 0).vertex(0, 0).
+  private[this] val _quad = Primitive.makeTexCoordVertex(4).texCoord(0, 0).vertex(0, 0).
     texCoord(texture.texRight, 0).vertex(texture.width, 0).
     texCoord(texture.texRight, texture.texBottom).vertex(texture.width, texture.height).
     texCoord(0, texture.texBottom).vertex(0, texture.height).buildQuads

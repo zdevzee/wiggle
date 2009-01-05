@@ -48,5 +48,5 @@ class Group extends Element
     }
   }
 
-  protected var _children :ArrayList[Element] = new ArrayList()
+  private[this] var _children :ArrayList[Element] = new ArrayList()
 }

@@ -60,7 +60,13 @@ abstract class Mutator extends Task
     _active == null && _remain.isEmpty
   }
 
-  protected def next (time :Float) = {
+  /** Returns the current value of the target. */
+  protected def apply :Float
+
+  /** Updates the target with the supplied value. */
+  protected def update (value :Float)
+
+  private def next (time :Float) = {
     if (_remain.isEmpty) {
       _active = null
     } else {
@@ -70,17 +76,11 @@ abstract class Mutator extends Task
     }
   }
 
-  /** Returns the current value of the target. */
-  protected def apply :Float
+  private[this] var _tasks :List[Task] = Nil
+  private[this] var _active :Task = null
+  private[this] var _remain :List[Task] = null
 
-  /** Updates the target with the supplied value. */
-  protected def update (value :Float)
-
-  protected var _tasks :List[Task] = Nil
-  protected var _active :Task = null
-  protected var _remain :List[Task] = null
-
-  protected class InterpTask (interp :Interpolator, toValue :Float, duration :Float) extends Task
+  private class InterpTask (interp :Interpolator, toValue :Float, duration :Float) extends Task
   {
     override def init (time :Float) {
       _t0 = time
@@ -97,8 +97,8 @@ abstract class Mutator extends Task
       }
     }
 
-    protected var _t0 = 0f
-    protected var _start = 0f
-    protected var _range = 0f
+    private[this] var _t0 = 0f
+    private[this] var _start = 0f
+    private[this] var _range = 0f
   }
 }

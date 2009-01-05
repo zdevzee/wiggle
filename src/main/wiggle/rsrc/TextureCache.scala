@@ -33,13 +33,13 @@ class TextureCache (renderer :Renderer, pxlldr :PixelsLoader)
   }
 
   /** Looks up a texture in the cache, returns an option on the texture. */
-  protected def lookupTexture (key :PixelsKey) = _cache.get(key) match {
+  private[this] def lookupTexture (key :PixelsKey) = _cache.get(key) match {
     case Some(texref) => texref.get
     case None => None
   }
 
   /** Creates a texture from the supplied configuration and data, caches and returns it. */
-  protected def createTexture (key :PixelsKey, pixels :Pixels) = {
+  private[this] def createTexture (key :PixelsKey, pixels :Pixels) = {
     // generate an id for our new texture and bind to it
     _idbuf.rewind()
     GL11.glGenTextures(_idbuf)
@@ -61,8 +61,8 @@ class TextureCache (renderer :Renderer, pxlldr :PixelsLoader)
   }
 
   /** A weak cache of resolved textures. */
-  protected val _cache = new WeakHashMap[PixelsKey, WeakReference[Texture]]
+  private[this] val _cache = new WeakHashMap[PixelsKey, WeakReference[Texture]]
 
   /** A buffer used to communicate with OpenGL. */
-  protected var _idbuf = BufferUtils.createIntBuffer(1)
+  private[this] var _idbuf = BufferUtils.createIntBuffer(1)
 }

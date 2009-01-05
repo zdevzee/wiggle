@@ -117,7 +117,7 @@ object Primitive
     /** Builds and returns the primitive as a Polygon. */
     def buildPolygon = build(Mode.Polygon)
 
-    protected val _data = BufferUtils.createByteBuffer(format.bytesPerVertex * vcount)
+    private[this] val _data = BufferUtils.createByteBuffer(format.bytesPerVertex * vcount)
   }
 
   /**
@@ -166,5 +166,5 @@ object Primitive
   def makeTexCoordColorVertex (vcount :Int) = new Builder(Format.TexCoordColorVertex, vcount)
 
   /** Brought to you by the committe against the proliferation of magic numbers. */
-  protected val FloatSize = 4
+  private[this] val FloatSize = 4
 }
