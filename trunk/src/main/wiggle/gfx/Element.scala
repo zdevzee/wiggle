@@ -93,8 +93,11 @@ abstract class Element
     }
   }
 
+  /** Called once the transforms are set up to render this element. */
+  protected def renderElement (rend :Renderer, time :Float)
+
   /** Called by {@link Group} when we are added to or removed from it. */
-  protected[gfx] def setParent (parent :Option[Group]) {
+  private[gfx] def setParent (parent :Option[Group]) {
     _parent match {
       case Some(parent) => parent.remove(this)
       case None => // noop
@@ -102,9 +105,6 @@ abstract class Element
     _parent = parent
   }
 
-  /** Called once the transforms are set up to render this element. */
-  protected def renderElement (rend :Renderer, time :Float)
-
   /** A reference to our parent in the display hierarchy. */
-  protected var _parent :Option[Group] = None
+  private[this] var _parent :Option[Group] = None
 }

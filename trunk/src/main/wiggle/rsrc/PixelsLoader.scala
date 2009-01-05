@@ -33,7 +33,7 @@ class PixelsLoader (rldr :ResourceLoader)
   }
 
   /** Loads and converts image data. */
-  protected def loadPixels (rsrc :Resource, key :PixelsKey) :Pixels = {
+  private[this] def loadPixels (rsrc :Resource, key :PixelsKey) :Pixels = {
     val image = rsrc.asFile match {
       case Some(file) => ImageIO.read(file)
       case None => ImageIO.read(rsrc.asStream)
@@ -76,19 +76,19 @@ class PixelsLoader (rldr :ResourceLoader)
   }
 
   /** Helper function for computing the next higher power of two for a value. */
-  protected def nextPowTwo (value :Int, current :Int) :Int =
+  private[this] def nextPowTwo (value :Int, current :Int) :Int =
     if (current > value) current else nextPowTwo(value, current*2)
 
   /** A blank color used as the default pixel for texture image data. */
-  protected val Blank = new Color(0f, 0f, 0f, 0f)
+  private[this] val Blank = new Color(0f, 0f, 0f, 0f)
 
   /** The color model used for images with an alpha-channel. */
-  protected val GlAlphaColorModel = new ComponentColorModel(
+  private[this] val GlAlphaColorModel = new ComponentColorModel(
     ColorSpace.getInstance(ColorSpace.CS_sRGB), Array(8, 8, 8, 8), true, false,
     Transparency.TRANSLUCENT, DataBuffer.TYPE_BYTE);
 
   /** The color model used for images without an alpha-channel. */
-  protected val GlColorModel = new ComponentColorModel(
+  private[this] val GlColorModel = new ComponentColorModel(
     ColorSpace.getInstance(ColorSpace.CS_sRGB), Array(8, 8, 8, 0), false, false,
     Transparency.OPAQUE, DataBuffer.TYPE_BYTE);
 }

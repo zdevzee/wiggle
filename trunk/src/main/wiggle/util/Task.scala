@@ -68,7 +68,7 @@ object Task
       complete
     }
 
-    protected val _tasks = tasks.toArray
+    private[this] val _tasks = tasks.toArray
   }
 
   /** Performs a set of tasks in order, starting the next task after the previous has completed. */
@@ -92,9 +92,9 @@ object Task
       _active == null && _remain.length == 0
     }
 
-    protected val _tasks = tasks.toList
-    protected var _active :Task = null
-    protected var _remain :List[Task] = null
+    private[this] val _tasks = tasks.toList
+    private[this] var _active :Task = null
+    private[this] var _remain :List[Task] = null
   }
 
   /** Delays for the specified period. Generally used with {@link Sequence} for fun and profit. */
@@ -108,7 +108,7 @@ object Task
       time > _end
     }
 
-    protected var _end :Float = 0
+    private[this] var _end :Float = 0
   }
 
   /** Repeats the supplied task over and over again. */

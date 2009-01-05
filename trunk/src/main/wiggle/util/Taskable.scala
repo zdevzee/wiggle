@@ -47,7 +47,7 @@ trait Taskable
     }
   }
 
-  protected var _tasks :ArrayList[Task] = new ArrayList()
-  protected var _newTasks :List[Task] = Nil
-  protected var _deadTasks :List[Task] = Nil
+  private[this] var _tasks :ArrayList[Task] = new ArrayList()
+  private[this] var _newTasks :List[Task] = Nil
+  private[this] var _deadTasks :List[Task] = Nil
 }

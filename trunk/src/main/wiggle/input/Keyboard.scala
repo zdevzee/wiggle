@@ -24,28 +24,28 @@ class Keyboard (val repeatEnabled :Boolean)
     /** Returns true if this key is currently depressed, false if not. */
     def isDown = GLKeyboard.isKeyDown(code)
 
-    /** Adds an key press handler. */
+    /** Adds a key press handler. */
     def addOnPress (onPress :Handler) {
       _onPress = onPress :: _onPress
     }
 
-    /** Adds an key release handler. */
+    /** Adds a key release handler. */
     def addOnRelease (onRelease :Handler) {
       _onRelease = onRelease :: _onRelease
     }
 
     /** Called by our Keyboard when this key is pressed. */
-    protected[Keyboard] def triggerPress () {
+    private[Keyboard] def triggerPress () {
       _onPress = _onPress.filter(!_(this))
     }
 
     /** Called by our Keyboard when this key is released. */
-    protected[Keyboard] def triggerRelease () {
+    private[Keyboard] def triggerRelease () {
       _onRelease = _onRelease.filter(!_(this))
     }
 
-    protected var _onPress :List[Handler] = Nil
-    protected var _onRelease :List[Handler] = Nil
+    private[this] var _onPress :List[Handler] = Nil
+    private[this] var _onRelease :List[Handler] = Nil
   }
 
   /** Returns the key for the specified key code. */

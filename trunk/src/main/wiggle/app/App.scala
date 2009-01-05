@@ -119,11 +119,11 @@ class App (config :DisplayConfig)
     for (element <- _elements) element.render(this.renderer, _timer.getTime)
   }
 
-  protected val _timer = new Timer
+  private[this] val _timer = new Timer
 
-  protected var _running = false
-  protected var _taskables :List[Taskable] = Nil
-  protected var _elements :List[Element] = Nil
+  private[this] var _running = false
+  private[this] var _taskables :List[Taskable] = Nil
+  private[this] var _elements :List[Element] = Nil
 
-  protected var _keyboard = List(new Keyboard(false))
+  private[this] var _keyboard = List(new Keyboard(false))
 }
