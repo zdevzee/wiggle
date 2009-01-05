@@ -5,8 +5,8 @@ package wiggle.demo
 
 import org.lwjgl.opengl.GL11
 
-import app.{DisplayConfig, Entity, GameLoop}
-import gfx.{Color, Element, Group, Primitive, Image}
+import app.{App, DisplayConfig, Entity}
+import gfx.{Color, Element, Group, Image, Primitive}
 import rsrc.{PixelsLoader, PixelsKey, ResourceLoader, TextureCache}
 import util.{Interpolator, Task, Taskable}
 
@@ -23,7 +23,7 @@ object EasingDemo
 
   def main (args :Array[String]) {
     val config = DisplayConfig("Easing Demo", 60, 800, 600)
-    var loop :GameLoop = new GameLoop(config)
+    var loop :App = new App(config)
     loop.init()
 
     val group = new Group with Entity

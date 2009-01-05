@@ -13,9 +13,9 @@ import gfx.Renderer
 import util.Taskable
 
 /**
- * Handles the main game loop.
+ * Handles the main application loop.
  */
-class GameLoop (config :DisplayConfig)
+class App (config :DisplayConfig)
 {
   val renderer = new Renderer
 
