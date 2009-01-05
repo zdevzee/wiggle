@@ -5,7 +5,7 @@ package wiggle.demo
 
 import org.lwjgl.opengl.GL11
 
-import game.{DisplayConfig, Entity, GameLoop}
+import app.{DisplayConfig, Entity, GameLoop}
 import gfx.{Color, Element, Group, Primitive, Image}
 import rsrc.{PixelsLoader, PixelsKey, ResourceLoader, TextureCache}
 import util.{Interpolator, Task, Taskable}

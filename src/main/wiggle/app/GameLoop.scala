@@ -1,7 +1,7 @@
 //
 // $Id$
 
-package wiggle.game
+package wiggle.app
 
 import org.lwjgl.LWJGLException
 import org.lwjgl.input.Keyboard
