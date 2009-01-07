@@ -23,6 +23,11 @@ abstract class Task
    *  processing.
    */
   def tick (time :Float) :Boolean
+
+  /** Adds this task to the target taskable. */
+  def bind (target :Taskable) {
+    target.add(this)
+  }
 }
 
 /**
