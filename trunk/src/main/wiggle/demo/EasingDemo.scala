@@ -41,9 +41,9 @@ object EasingDemo
     val mover = new Group with Entity
     mover.add(makeSquare)
     mover.move(0, config.height/2)
-    mover.add(mover.orientM.linear(360, 2).set(0).repeat)
-    mover.add(mover.xM.easeInOut(config.width/2, 1).delay(1).easeInOut(config.width, 1).
-              easeIn(config.width/2, 1).easeOut(0, 1).repeat)
+    mover.orientM.linear(360, 2).set(0).repeat.bind(mover)
+    mover.xM.easeInOut(config.width/2, 1).delay(1).easeInOut(config.width, 1).
+      easeIn(config.width/2, 1).easeOut(0, 1).repeat.bind(mover)
     app.add(mover)
     app.run
   }
