@@ -15,12 +15,6 @@ import wiggle.util.{Interpolator, Task, Taskable}
  */
 object EasingDemo
 {
-  def makeSquare = Primitive.makeColorVertex(4).
-    color(Color.Blue).vertex(-50, -50).
-    color(Color.White).vertex(50, -50).
-    color(Color.Blue).vertex(50, 50).
-    color(Color.White).vertex(-50, 50).buildQuads
-
   def main (args :Array[String]) {
     val config = DisplayConfig("Easing Demo", 60, 800, 600)
     var app :App = new App(config)
@@ -45,6 +39,13 @@ object EasingDemo
     mover.xM.easeInOut(config.width/2, 1).delay(1).easeInOut(config.width, 1).
       easeIn(config.width/2, 1).easeOut(0, 1).repeat.bind(mover)
     app.add(mover)
-    app.run
+
+    app.run()
   }
+
+  def makeSquare = Primitive.makeColorVertex(4).
+    color(Color.Blue).vertex(-50, -50).
+    color(Color.White).vertex(50, -50).
+    color(Color.Blue).vertex(50, 50).
+    color(Color.White).vertex(-50, 50).buildQuads
 }

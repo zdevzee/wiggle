@@ -36,12 +36,12 @@ class Keyboard (val repeatEnabled :Boolean)
 
     /** Called by our Keyboard when this key is pressed. */
     private[Keyboard] def triggerPress () {
-      _onPress = _onPress.filter(!_(this))
+      _onPress = _onPress.filter(_(this))
     }
 
     /** Called by our Keyboard when this key is released. */
     private[Keyboard] def triggerRelease () {
-      _onRelease = _onRelease.filter(!_(this))
+      _onRelease = _onRelease.filter(_(this))
     }
 
     private[this] var _onPress :List[Handler] = Nil

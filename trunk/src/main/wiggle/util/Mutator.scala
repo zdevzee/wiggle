@@ -22,9 +22,54 @@ abstract class Mutator extends Task
 
   /** Adds a task that changes the value to the specified target in the specified duration. */
   def interp (interp :Interpolator, toValue :Float, duration :Float) = {
-    _tasks = new InterpTask(interp, toValue, duration) :: _tasks
+    add(new InterpTask(interp, toValue, duration))
     this
   }
+
+  /** Adds a task that changes the value with the specified velocity. */
+  def velocity (pixelsPerSec :Float) = {
+    add(new Task {
+      override def init (time :Float) {
+        _last = time
+      }
+      override def tick (time :Float) = {
+        update(apply + (time - _last) * pixelsPerSec)
+        _last = time
+        false
+      }
+      private[this] var _last :Float = 0
+    })
+    this
+  }
+
+  /** Adds a task that accelerates by the specified rate from the specified initial velocity up to
+   * the specified maximum velocity (in pixels per second). */
+  def inertial (accel :Float, maxvel :Float, initvel :Float) = {
+    add(new Task {
+      override def init (time :Float) {
+        _last = time
+        _curvel = initvel
+      }
+      override def tick (time :Float) = {
+        val dt = time - _last
+        if (accel > 0) {
+          _curvel = Math.min(_curvel + dt * accel, maxvel)
+        } else {
+          _curvel = Math.max(_curvel + dt * accel, maxvel)
+        }
+        update(apply + dt * _curvel)
+        _last = time
+        false
+      }
+      private[this] var _last :Float = 0
+      private[this] var _curvel :Float = 0
+    })
+    this
+  }
+
+  /** Adds a task that accelerates by the specified rate from zero up to the specified maximum
+   * velocity (in pixels per second). */
+  def inertial (accel :Float, maxvel :Float) :Mutator = inertial(accel, maxvel, 0)
 
   /** Adds a delay to our task list. */
   def delay (time :Float) = {
@@ -45,6 +90,20 @@ abstract class Mutator extends Task
 
   /** Wraps this mutator in a task that causes it to repeat indefinitely. */
   def repeat = Task.repeat(this)
+
+  /** Adds the supplied task to our chain of tasks. */
+  def add (task :Task) = {
+    _tasks = task :: _tasks
+    this
+  }
+
+  /** Creates a mutator that bounds all changes into the supplied range. */
+  def limit (min :Float, max :Float) = new Mutator {
+    override protected def apply = Mutator.this.apply
+    override protected def update (value :Float) {
+      Mutator.this.update(Math.min(Math.max(value, min), max))
+    }
+  }
 
   // from Task
   override def init (time :Float) {
