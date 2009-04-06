@@ -54,7 +54,7 @@ class App (config :DisplayConfig)
       GL11.glLoadIdentity()
 
       // TEMP: wire up a handler for exiting via they escape key
-      _keyboard.head.key(Keyboard.KEY_ESCAPE).addOnPress((key :Keyboard#Key) => { stop() ; false })
+      _keyboard.head.key(Keyboard.KEY_ESCAPE).addOnPress(key => { stop() ; false })
 
     } catch {
       case e :LWJGLException => e.printStackTrace(System.err)

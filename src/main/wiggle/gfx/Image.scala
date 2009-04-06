@@ -10,6 +10,9 @@ import org.lwjgl.opengl.GL11
  */
 class Image (texture :Texture) extends Element
 {
+  def width = texture.width
+  def height = texture.height
+
   override protected def renderElement (rend :Renderer, time :Float) {
     rend.bind(texture)
     _quad.render(rend, time)

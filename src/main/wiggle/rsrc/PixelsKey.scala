@@ -8,3 +8,10 @@ package wiggle.rsrc
  * {@link PixelsLoader} and {@link TextureCache} when loading image data.
  */
 case class PixelsKey (path :String, flipped :Boolean, forceAlpha :Boolean)
+{
+//   /** A constructor that assumes no alpha forcing. */
+//   this (path :String, flipped :Boolean) = this(path, flipped, false)
+
+//   /** A constructor that assumes no flipping or alpha forcing. */
+//   this (path :String) = this(path, false, false)
+}
