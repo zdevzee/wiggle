@@ -14,7 +14,7 @@
 
 package wiggle.rsrc
 
-import scala.collection.jcl.WeakHashMap
+import scala.collection.mutable.WeakHashMap
 import scala.ref.WeakReference
 
 import org.lwjgl.BufferUtils
