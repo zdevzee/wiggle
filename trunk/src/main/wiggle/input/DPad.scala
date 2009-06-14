@@ -79,7 +79,7 @@ class DPad (kdb :Keyboard, target :Entity)
           if (_pressed.tail.isEmpty) deactivate()
           else activate(_pressed.tail.head)
         }
-        _pressed = _pressed - key
+        _pressed = _pressed.filterNot(key.==)
       }
       true
     }

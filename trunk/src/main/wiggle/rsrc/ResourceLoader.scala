@@ -31,7 +31,7 @@ class ResourceLoader (providers :Function1[String, Option[Resource]]*)
   }
 
   /** Locates and returns an option on the specified resource. */
-  def getOption (path :String) = providers.flatMap(_(path)).firstOption
+  def getOption (path :String) = providers.flatMap(_(path)).headOption
 
   /** Treats the resource loader as a function from path to Resource.
    * @see #get */
@@ -76,7 +76,7 @@ package tests {
 
       // load things that don't exist
       expect(None) { floader.getOption("nonexistent") }
-      intercept(classOf[NoSuchElementException]) { floader.get("nonexistent") }
+      intercept[NoSuchElementException] { floader.get("nonexistent") }
 
       // load something that does exist
       floader.get(refpath).asFile match {
@@ -95,7 +95,7 @@ package tests {
 
       // load things that don't exist
       expect(None) { cploader.getOption("nonexistent") }
-      intercept(classOf[NoSuchElementException]) { cploader.get("nonexistent") }
+      intercept[NoSuchElementException] { cploader.get("nonexistent") }
 
       // load something that does exist
       val cprsrc = cploader.get(cppath)

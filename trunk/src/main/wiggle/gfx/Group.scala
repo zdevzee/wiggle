@@ -14,7 +14,7 @@
 
 package wiggle.gfx
 
-import scala.collection.jcl.ArrayList
+import scala.collection.mutable.ArrayBuffer
 
 /**
  * Convenience methods for creating groups of elements.
@@ -39,13 +39,14 @@ class Group extends Element
   /** Adds the specified element as a child of this element. */
   def add (elem :Element) {
     elem.setParent(Some(this))
-    _children.add(elem)
+    _children += elem
   }
 
   /** Removes the specified child element. */
-  def remove (elem :Element) = {
-    if (!_children.remove(elem)) false
-    else {
+  def remove (elem :Element) = _children.indexOf(elem) match {
+    case -1 => false
+    case idx => {
+      _children.remove(idx, 1)
       elem.setParent(None)
       true
     }
@@ -59,5 +60,5 @@ class Group extends Element
     }
   }
 
-  private[this] var _children :ArrayList[Element] = new ArrayList()
+  private[this] val _children :ArrayBuffer[Element] = new ArrayBuffer()
 }
