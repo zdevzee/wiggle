@@ -12,14 +12,3 @@
 // CONDITIONS OF ANY KIND, either express or implied. See the License for the
 // specific language governing permissions and limitations under the License.
 
-package wiggle.app
-
-import wiggle.util.Taskable
-
-/**
- * A trait used by objects that are managed by the game system.
- */
-trait Entity extends Taskable
-{
-  // TODO: keep reference to the container, be able to remove ourselves?
-}
