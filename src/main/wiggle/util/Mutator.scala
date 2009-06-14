@@ -1,5 +1,16 @@
 //
 // $Id$
+//
+// Copyright (C) 2008-2009 Michael Bayne
+//
+// Licensed under the Apache License, Version 2.0 (the "License"); you may not use
+// this file except in compliance with the License. You may obtain a copy of the
+// License at: http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software distributed
+// under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
+// CONDITIONS OF ANY KIND, either express or implied. See the License for the
+// specific language governing permissions and limitations under the License.
 
 package wiggle.util
 
@@ -9,20 +20,20 @@ package wiggle.util
 abstract class Mutator extends Task
 {
   /** Adds a task that changes the value to the specified target in the specified duration. */
-  def linear (toValue :Float, duration :Float) = interp(Interpolator.linear, toValue, duration)
+  def linear (toVal :Float, duration :Float) = interp(Interpolator.linear, toVal, duration)
 
   /** Adds a task that eases the value to the specified target in the specified duration. */
-  def easeIn (toValue :Float, duration :Float) = interp(Interpolator.easeIn, toValue, duration)
+  def easeIn (toVal :Float, duration :Float) = interp(Interpolator.easeIn, toVal, duration)
 
   /** Adds a task that eases the value to the specified target in the specified duration. */
-  def easeOut (toValue :Float, duration :Float) = interp(Interpolator.easeOut, toValue, duration)
+  def easeOut (toVal :Float, duration :Float) = interp(Interpolator.easeOut, toVal, duration)
 
   /** Adds a task that eases the value to the specified target in the specified duration. */
-  def easeInOut (toValue :Float, duration :Float) = interp(Interpolator.easeInOut, toValue, duration)
+  def easeInOut (toVal :Float, duration :Float) = interp(Interpolator.easeInOut, toVal, duration)
 
   /** Adds a task that changes the value to the specified target in the specified duration. */
-  def interp (interp :Interpolator, toValue :Float, duration :Float) = {
-    add(new InterpTask(interp, toValue, duration))
+  def interp (interp :Interpolator, toVal :Float, duration :Float) = {
+    add(new InterpTask(interp, toVal, duration))
     this
   }
 
@@ -139,12 +150,12 @@ abstract class Mutator extends Task
   private[this] var _active :Task = null
   private[this] var _remain :List[Task] = null
 
-  private class InterpTask (interp :Interpolator, toValue :Float, duration :Float) extends Task
+  private class InterpTask (interp :Interpolator, toVal :Float, duration :Float) extends Task
   {
     override def init (time :Float) {
       _t0 = time
       _start = apply
-      _range = toValue - _start
+      _range = toVal - _start
     }
 
     override def tick (time :Float) = {
@@ -152,7 +163,7 @@ abstract class Mutator extends Task
       if (dt < duration) {
         update(interp(_start, _range, dt, duration)); false
       } else {
-        update(toValue); true
+        update(toVal); true
       }
     }
 
