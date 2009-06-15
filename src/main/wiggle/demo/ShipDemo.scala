@@ -32,7 +32,7 @@ object ShipDemo
     def accel (accel :Float) = new DeltaTask {
       override def deltaTick (dt :Float) = {
         // compute our current acceleration vector
-        _curacc.update(Vector2f.UnitMinusY).rotateEq(orientR).*=(accel)
+        _curacc.update(Vector2f.UnitMinusY).rotateEq(orientR).multEq(accel)
         // update our current velocity vector with said acceleration
         _curvel.addScaledEq(_curacc, dt)
         false
@@ -66,7 +66,7 @@ object ShipDemo
 
     val kbd = new Keyboard(false)
     val dpad = new DPad(kbd, ship)
-    dpad.group.bindUp(ship.accel(10)).bindDown(ship.accel(-10))
+    dpad.group.bindUp(ship.accel(10)) // .bindDown(ship.accel(-10)) // uncomment for reverse!
     dpad.group.bindLeft(ship.orientM.velocity(-90)).bindRight(ship.orientM.velocity(90))
     app.pushKeyboard(kbd)
 
