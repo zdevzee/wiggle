@@ -38,6 +38,9 @@ abstract class Element
   /** This element's orientation, in degrees (blame OpenGL). */
   var orient :Float = 0
 
+  /** This element's orientation in radians. */
+  def orientR :Float = Math.Pi.toFloat * orient / 180f
+
   /** Returns an option on this element's parent. */
   def parent :Option[Group] = _parent
 
