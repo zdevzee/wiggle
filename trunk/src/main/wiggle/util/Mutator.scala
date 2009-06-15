@@ -38,13 +38,13 @@ abstract class Mutator extends Task
   }
 
   /** Adds a task that changes the value with the specified velocity. */
-  def velocity (pixelsPerSec :Float) = {
+  def velocity (dvdt :Float) = {
     add(new Task {
       override def init (time :Float) {
         _last = time
       }
       override def tick (time :Float) = {
-        update(apply + (time - _last) * pixelsPerSec)
+        update(apply + (time - _last) * dvdt)
         _last = time
         false
       }
@@ -54,7 +54,7 @@ abstract class Mutator extends Task
   }
 
   /** Adds a task that accelerates by the specified rate from the specified initial velocity up to
-   * the specified maximum velocity (in pixels per second). */
+   * the specified maximum velocity (in units per second). */
   def inertial (accel :Float, maxvel :Float, initvel :Float) = {
     add(new Task {
       override def init (time :Float) {
