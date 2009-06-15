@@ -17,7 +17,7 @@ package wiggle.geom
 /**
  * Represents a 2D vector.
  */
-class Vector2f (private[this] var _x :Float, private[this] var _y :Float) extends AnyRef
+final class Vector2f (private[this] var _x :Float, private[this] var _y :Float) extends AnyRef
   with Product2[Float, Float]
 {
   /** Returns the x value of this vector. */
@@ -173,14 +173,23 @@ class Vector2f (private[this] var _x :Float, private[this] var _y :Float) extend
  */
 object Vector2f
 {
-  /** A unit vector in the +x direction. */
-  val UnitX = new Vector2f(1f, 0f)
-
-  /** A unit vector in the +y direction. */
-  val UnitY = new Vector2f(0f, 1f)
-
   /** The zero vector. */
   val Zero = new Vector2f(0f, 0f)
+
+  /** The unit vector. */
+  val Unit = new Vector2f(1f, 1f)
+
+  /** The unit vector in the +x direction. */
+  val UnitX = new Vector2f(1f, 0f)
+
+  /** The unit vector in the +y direction. */
+  val UnitY = new Vector2f(0f, 1f)
+
+  /** The unit vector in the -x direction. */
+  val UnitMinusX = new Vector2f(-1f, 0f)
+
+  /** The unit vector in the -y direction. */
+  val UnitMinusY = new Vector2f(0f, -1f)
 
   /** Creates a new vector with the supplied value. */
   def apply (x :Float, y :Float) = new Vector2f(x, y)
