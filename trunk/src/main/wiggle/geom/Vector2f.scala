@@ -94,6 +94,9 @@ final class Vector2f (private[this] var _x :Float, private[this] var _y :Float) 
   /** Multiplies this vector in place by a scalar. Returns this. */
   def *= (k :Float) = mult(k, this)
 
+  /** Multiplies this vector in place by a scalar. Returns this. */
+  def multEq (k :Float) = mult(k, this)
+
   /** Stores this vector times a scalar into target. Returns target. */
   def mult (k :Float, target :Vector2f) = target.update(_x*k, _y*k)
 
@@ -103,6 +106,9 @@ final class Vector2f (private[this] var _x :Float, private[this] var _y :Float) 
   /** Multiplies this vector in place by vec. Returns this. */
   def *= (vec :Vector2f) = mult(vec, this)
 
+  /** Multiplies this vector in place by vec. Returns this. */
+  def multEq (vec :Vector2f) = mult(vec, this)
+
   /** Stores this vector times vec into target. Returns target. */
   def mult (vec :Vector2f, target :Vector2f) = target.update(_x*vec.x, _y*vec.y)
 
@@ -111,6 +117,9 @@ final class Vector2f (private[this] var _x :Float, private[this] var _y :Float) 
 
   /** Adds this vector in place to vec. Returns this. */
   def += (vec :Vector2f) = add(vec, this)
+
+  /** Adds this vector in place to vec. Returns this. */
+  def addEq (vec :Vector2f) = add(vec, this)
 
   /** Stores this vector plus vec into target. Returns target. */
   def add (vec :Vector2f, target :Vector2f) = target.update(_x+vec.x, _y+vec.y)
@@ -126,6 +135,9 @@ final class Vector2f (private[this] var _x :Float, private[this] var _y :Float) 
 
   /** Subtracts this vector in place to vec. Returns this. */
   def -= (vec :Vector2f) = subtract(vec, this)
+
+  /** Subtracts this vector in place to vec. Returns this. */
+  def subtractEq (vec :Vector2f) = subtract(vec, this)
 
   /** Stores this vector minus vec into target. Returns target. */
   def subtract (vec :Vector2f, target :Vector2f) = target.update(_x+vec.x, _y+vec.y)
