@@ -1,7 +1,7 @@
 //
 // $Id$
 //
-// Wiggle - a 2D game development library
+// Wiggle - a 2D game development library - http://code.google.com/p/wiggle/
 // Copyright 2008-2010 Michael Bayne
 // Distributed under the "Simplified BSD License" in LICENSE.txt
 
