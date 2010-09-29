@@ -26,20 +26,26 @@ Building
 
 You need three things:
 
-1. Ant (1.7 or newer) - http://ant.apache.org/
-2. Scala (2.7.2 or newer) - http://scala-lang.org/
-3. LWJGL (2.0.1 or newer) - http://lwjgl.org/
+1. Scala - http://scala-lang.org/
+2. SBT - http://code.google.com/p/simple-build-tool/
+3. LWJGL - http://lwjgl.org/
 
-Copy build.properties.dist to build.properties and specify the paths to your
-Scala and LWJGL installations and then run:
+Until LWJGL is published to the central Maven repositories, you need to
+manually copy lwjgl.jar, lwjgl_util.jar and the native/ directory into lib/
+before building Wiggle. This should look like:
 
-% ant -Ddemo=Easing demo
+  lib/lwjgl.jar
+  lib/lwjgl_util.jar
+  lib/native/linux/...
+  lib/native/macosx/...
+  lib/native/win32/...
 
-to build the library and execute a demonstration program.
+To build and run demos, invoke:
 
-Building has been tested on Linux and Mac OS X and will probably not work on
-Windows, though that should be easily accomplished with a small bit of ant
-fiddling in the "test" task.
+  % sbt run
+
+Building has been tested on Linux and Mac OS X and hopefully works on Windows
+as well.
 
 Comments
 --------
